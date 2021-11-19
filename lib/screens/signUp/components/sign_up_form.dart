@@ -18,9 +18,15 @@ class _SignFormState extends State<SignForm> {
 
   void submit() {
     final _formState = _formKey.currentState;
-
     if (_formState!.validate()) {
       _formState.save();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+          'Processing Data',
+          style: TextStyle(color: Colors.white),
+        )),
+      );
     }
   }
 
@@ -66,7 +72,8 @@ class _SignFormState extends State<SignForm> {
   TextFormField passwordFormField() {
     return TextFormField(
         validator: (val) {
-          if (val!.isEmpty && !passwordErrors.contains(kPassNullError)) {
+          if (val == null ||
+              val.isEmpty && !passwordErrors.contains(kPassNullError)) {
             setState(() {
               passwordErrors.add(kPassNullError);
             });
@@ -101,7 +108,9 @@ class _SignFormState extends State<SignForm> {
   TextFormField confirmPasswordFormField() {
     return TextFormField(
         validator: (val) {
-          if (val != password &&
+          if (val == null ||
+              val.isEmpty ||
+              val != password &&
               !confirmPaswordErrors.contains(kMatchPassError)) {
             setState(() {
               confirmPaswordErrors.add(kMatchPassError);
@@ -132,7 +141,8 @@ class _SignFormState extends State<SignForm> {
         hintText: 'Enter your Email',
       ),
       validator: (val) {
-        if (val!.isEmpty && !emailErrors.contains(kEmailNullError)) {
+        if (val == null ||
+            val.isEmpty && !emailErrors.contains(kEmailNullError)) {
           setState(() {
             emailErrors.add(kEmailNullError);
           });

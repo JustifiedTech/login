@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/config/keyboard_dismiss.dart';
 import '../../../components/form_error.dart';
 import '../../../components/button.dart';
 import '../../../config/size_config.dart';
@@ -17,10 +18,16 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
 
   void submit() {
-    final _formState = _formKey.currentState;
+    final _formState = _formKey.currentState!;
 
-    if (_formState!.validate()) {
+    if (_formState.validate()) {
       _formState.save();
+      KeyboardUtil.hideKeyboard(context);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+        'Loading Data',
+        style: TextStyle(color: Colors.white),
+      )));
     }
   }
 
@@ -48,7 +55,12 @@ class _SignFormState extends State<SignForm> {
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
             Button(
-              press: submit,
+              press: () => {
+                if (_formKey.currentState!.validate())
+                  {
+                    _formKey.currentState!.save(),
+                  }
+              },
               text: 'LOGIN',
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
@@ -69,7 +81,8 @@ class _SignFormState extends State<SignForm> {
   TextFormField passwordFormField() {
     return TextFormField(
         validator: (val) {
-          if (val!.isEmpty && !passwordErrors.contains(kPassNullError)) {
+          if (val == null ||
+              val.isEmpty && !passwordErrors.contains(kPassNullError)) {
             setState(() {
               passwordErrors.add(kPassNullError);
             });
@@ -108,7 +121,8 @@ class _SignFormState extends State<SignForm> {
         hintText: 'Enter your Email',
       ),
       validator: (val) {
-        if (val!.isEmpty && !emailErrors.contains(kEmailNullError)) {
+        if (val == null ||
+            val.isEmpty && !emailErrors.contains(kEmailNullError)) {
           setState(() {
             emailErrors.add(kEmailNullError);
           });
