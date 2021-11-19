@@ -4,7 +4,7 @@ import '../config/size_config.dart';
 class FormError extends StatelessWidget {
   const FormError({
     Key? key,
-    @required this.errors,
+    required this.errors,
 
   }) : super(key: key);
 

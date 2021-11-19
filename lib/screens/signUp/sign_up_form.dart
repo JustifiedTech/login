@@ -71,6 +71,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField passwordFormField() {
     return TextFormField(
+        onSaved: (newValue) => password = newValue,
         validator: (val) {
           if (val == null ||
               val.isEmpty && !passwordErrors.contains(kPassNullError)) {
@@ -98,7 +99,6 @@ class _SignFormState extends State<SignForm> {
           }
           return;
         },
-        onSaved: (newValue) => password = newValue,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
           hintText: 'Enter your Password',
@@ -108,10 +108,8 @@ class _SignFormState extends State<SignForm> {
   TextFormField confirmPasswordFormField() {
     return TextFormField(
         validator: (val) {
-          if (val == null ||
-              val.isEmpty ||
-              val != password &&
-                  !confirmPaswordErrors.contains(kMatchPassError)) {
+          if (val != password &&
+              !confirmPaswordErrors.contains(kMatchPassError)) {
             setState(() {
               confirmPaswordErrors.add(kMatchPassError);
             });
@@ -125,7 +123,6 @@ class _SignFormState extends State<SignForm> {
               passwordErrors.remove(kMatchPassError);
             });
           }
-          return;
         },
         onSaved: (newValue) => password = newValue,
         keyboardType: TextInputType.text,

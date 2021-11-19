@@ -3,7 +3,7 @@ import '../config/constants.dart';
 import '../config/size_config.dart';
 
 class Button extends StatelessWidget {
-  const Button({Key? key, @required this.press, @required this.text})
+  const Button({Key? key, required this.press, required this.text})
       : super(key: key);
   final String? text;
   final Function()? press;
@@ -13,19 +13,18 @@ class Button extends StatelessWidget {
       width: double.infinity,
       height: getProportionateScreenHeight(56),
       child: TextButton(
-style: TextButton.styleFrom(
-   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-backgroundColor: kPrimaryColor),
-
+        style: TextButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            backgroundColor: kPrimaryColor),
         onPressed: press,
         child: Text(
           text ?? '',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.bold,
               color: kPrimaryLightColor,
               fontSize: getProportionateScreenWidth(18)),
         ),
-    
       ),
     );
   }

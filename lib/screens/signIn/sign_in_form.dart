@@ -80,6 +80,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField passwordFormField() {
     return TextFormField(
+        onSaved: (newValue) => password = newValue,
         validator: (val) {
           if (val == null ||
               val.isEmpty && !passwordErrors.contains(kPassNullError)) {
@@ -107,7 +108,6 @@ class _SignFormState extends State<SignForm> {
           }
           return;
         },
-        onSaved: (newValue) => password = newValue,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
           hintText: 'Enter your Password',
@@ -117,6 +117,7 @@ class _SignFormState extends State<SignForm> {
   TextFormField emailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
+      onSaved: (newValue) => email = newValue,
       decoration: const InputDecoration(
         hintText: 'Enter your Email',
       ),
@@ -147,7 +148,6 @@ class _SignFormState extends State<SignForm> {
         }
         return;
       },
-      onSaved: (newValue) => email = newValue,
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../config/size_config.dart';
 
 class AskButton extends StatelessWidget {
-  const AskButton({Key? key, @required this.press, @required this.text})
+  const AskButton({Key? key, required this.press, required this.text})
       : super(key: key);
   final String? text;
   final Function()? press;

@@ -20,7 +20,7 @@ InputDecorationTheme inputDecorationTheme() {
     gapPadding: 10,
     borderSide: const BorderSide(
       color: Colors.red,
-      width: 1.2,
+      width: 1.5,
     ),
     borderRadius: BorderRadius.circular(30),
   );
