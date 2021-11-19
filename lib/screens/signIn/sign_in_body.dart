@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:login/components/ask_button.dart';
-import 'package:login/screens/signIn/sign_in_screen.dart';
 import '/components/background.dart';
-import '../../../config/size_config.dart';
-import 'sign_up_form.dart';
+import '../signUp/sign_up_screen.dart';
+import '/config/size_config.dart';
+import './sign_in_form.dart';
+import '/components/ask_button.dart';
 
-class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
-
+class SignInBody extends StatelessWidget {
+  const SignInBody({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -24,7 +23,7 @@ class Body extends StatelessWidget {
                 children: [
                   SizedBox(height: SizeConfig.screenHeight! * 0.04),
                   Text(
-                    'Register',
+                    'Log In',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: getProportionateScreenWidth(28),
@@ -34,9 +33,9 @@ class Body extends StatelessWidget {
                   const SignForm(),
                   const SizedBox(height: 40),
                   AskButton(
-                      text: 'Login Here',
+                      text: 'Register Here',
                       press: () => Navigator.of(context)
-                          .pushNamed(SignInScreen.routeName)),
+                          .pushNamed(SignUpScreen.routeName)),
                   SizedBox(height: SizeConfig.screenHeight! * 0.01),
                 ],
               ),

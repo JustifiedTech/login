@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login/config/keyboard_dismiss.dart';
-import '../../../components/form_error.dart';
-import '../../../components/button.dart';
-import '../../../config/size_config.dart';
-import '../../../config/constants.dart';
+import '/components/form_error.dart';
+import '/components/button.dart';
+import '/config/size_config.dart';
+import '/config/constants.dart';
 
 class SignForm extends StatefulWidget {
   const SignForm({
@@ -18,23 +17,24 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
 
   void submit() {
-    final _formState = _formKey.currentState!;
-
-    if (_formState.validate()) {
+    final _formState = _formKey.currentState;
+    if (_formState!.validate()) {
       _formState.save();
-      KeyboardUtil.hideKeyboard(context);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-        'Loading Data',
-        style: TextStyle(color: Colors.white),
-      )));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+          'Processing Data',
+          style: TextStyle(color: Colors.white),
+        )),
+      );
     }
   }
 
   final List<String> emailErrors = [];
   final List<String> passwordErrors = [];
+  final List<String> confirmPaswordErrors = [];
 
-  String? email, password;
+  String? email, password, confirmPassword;
   bool remember = false;
   @override
   Widget build(BuildContext context) {
@@ -54,26 +54,17 @@ class _SignFormState extends State<SignForm> {
               errors: passwordErrors,
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
+            confirmPasswordFormField(),
+            SizedBox(height: getProportionateScreenHeight(5)),
+            FormError(
+              errors: confirmPaswordErrors,
+            ),
+            SizedBox(height: getProportionateScreenHeight(20)),
             Button(
-              press: () => {
-                if (_formKey.currentState!.validate())
-                  {
-                    _formKey.currentState!.save(),
-                  }
-              },
+              press: submit,
               text: 'LOGIN',
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            InkWell(
-              onTap: () => {},
-              child: Text(
-                'Forgot Password?',
-                style: TextStyle(
-                  color: kTextColor,
-                  fontSize: getProportionateScreenWidth(14),
-                ),
-              ),
-            ),
           ],
         ));
   }
@@ -111,6 +102,35 @@ class _SignFormState extends State<SignForm> {
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(
           hintText: 'Enter your Password',
+        ));
+  }
+
+  TextFormField confirmPasswordFormField() {
+    return TextFormField(
+        validator: (val) {
+          if (val == null ||
+              val.isEmpty ||
+              val != password &&
+                  !confirmPaswordErrors.contains(kMatchPassError)) {
+            setState(() {
+              confirmPaswordErrors.add(kMatchPassError);
+            });
+          }
+          return null;
+        },
+        onChanged: (val) {
+          if (val.isNotEmpty &&
+              confirmPaswordErrors.contains(kMatchPassError)) {
+            setState(() {
+              passwordErrors.remove(kMatchPassError);
+            });
+          }
+          return;
+        },
+        onSaved: (newValue) => password = newValue,
+        keyboardType: TextInputType.text,
+        decoration: const InputDecoration(
+          hintText: 'Confirm your Password',
         ));
   }
 
